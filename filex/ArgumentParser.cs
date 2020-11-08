@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 
+using filex.Enums;
 using filex.Objects;
 
 namespace filex
@@ -63,7 +64,14 @@ namespace filex
                         response.FileNameForClassification = VerifyInputFile(args[x+1]);
                         break;
                     case "mode":
-                        response.Train = args[x + 1].ToLower() == "train";
+                        if (!Enum.TryParse(args[x + 1], true, out OperationMode mode))
+                        {
+                            Console.WriteLine($"Invalid value for mode: {args[x+1]}");
+                            continue;
+                        }
+
+                        response.Mode = mode;
+
                         break;
                     default:
                         Console.WriteLine($"Invalid option: {args[x]}");
