@@ -1,4 +1,6 @@
-﻿ namespace filex
+﻿ using System;
+
+ namespace filex
 {
     class Program
     {
@@ -6,11 +8,11 @@
         {
             var fileName = ArgumentParser.Parse(args);
 
-            // Feature Extractor
+            var modelRunner = new ModelRunner();
 
-            // Model Run
+            var prediction = modelRunner.RunModel(fileName);
 
-            // Model Output
+            Console.WriteLine(prediction);
         }
     }
 }
