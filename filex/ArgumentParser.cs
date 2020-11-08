@@ -2,10 +2,22 @@
 using System.IO;
 using System.Linq;
 
+using filex.Objects;
+
 namespace filex
 {
     public class ArgumentParser
     {
+        private static string VerifyInputFile(string file)
+        {
+            if (!File.Exists(file))
+            {
+                throw new FileNotFoundException($"File: {file} does not exist");
+            }
+
+            return file;
+        }
+
         /// <summary>
         /// Parses the command line argument
         /// </summary>
@@ -14,7 +26,7 @@ namespace filex
         /// <exception cref="System.ArgumentNullException">Thrown when args is null</exception>
         /// <exception cref="System.IO.FileNotFoundException">Throw when the file is not found</exception>
         /// <exception cref="System.ArgumentException">Thrown when args is empty</exception>
-        public static string Parse(string[] args)
+        public static ArgumentResponseItem Parse(string[] args)
         {
             if (args == null)
             {
@@ -26,14 +38,40 @@ namespace filex
                 throw new ArgumentException("Args was empty");
             }
 
-            var file = args[0];
-
-            if (!File.Exists(file))
+            if (args.Length == 1)
             {
-                throw new FileNotFoundException($"File: {file} does not exist");
+                return new ArgumentResponseItem
+                {
+                    FileNameForClassification = VerifyInputFile(args[0])
+                };
             }
 
-            return file;
+            if (args.Length % 2 != 0)
+            {
+                throw new ArgumentException("Arguments come in pairs");
+            }
+
+            var response = new ArgumentResponseItem();
+
+            for (var x = 0; x < args.Length; x += 2)
+            {
+                args[x] = args[x].ToLower();
+
+                switch (args[x])
+                {
+                    case "file":
+                        response.FileNameForClassification = VerifyInputFile(args[x+1]);
+                        break;
+                    case "mode":
+                        response.Train = args[x + 1].ToLower() == "train";
+                        break;
+                    default:
+                        Console.WriteLine($"Invalid option: {args[x]}");
+                        break;
+                }
+            }
+
+            return response;
         }
     }
 }

@@ -6,11 +6,11 @@
     {
         static void Main(string[] args)
         {
-            var fileName = ArgumentParser.Parse(args);
+            var argumentResponse = ArgumentParser.Parse(args);
 
             var modelRunner = new ModelRunner();
 
-            var prediction = modelRunner.RunModel(fileName);
+            var prediction = modelRunner.RunModel(argumentResponse.FileNameForClassification);
 
             Console.WriteLine(prediction);
         }
