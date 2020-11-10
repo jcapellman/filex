@@ -1,4 +1,8 @@
-﻿using filex.Enums;
+﻿using System;
+using System.Collections.Generic;
+
+using filex.Arguments.Base;
+using filex.Enums;
 
 namespace filex.Objects
 {
@@ -10,10 +14,28 @@ namespace filex.Objects
 
         public bool Verbose { get; set; }
 
-        public ArgumentResponseItem()
+        public ArgumentResponseItem(IEnumerable<BaseArgument> arguments)
         {
-            Mode = OperationMode.MODEL_PREDICTION;
-            Verbose = false;
+            foreach (var argument in arguments)
+            {
+                UpdateProperty(argument.PropertyMap, argument.DefaultValue);
+            }
+        }
+
+        public bool UpdateProperty(string propertyName, object value)
+        {
+            var property = this.GetType().GetProperty(propertyName);
+
+            if (property == null)
+            {
+                Console.WriteLine($"Could not map {propertyName} to the object");
+
+                return false;
+            }
+
+            property.SetValue(this, value, null);
+
+            return true;
         }
 
         public bool IsValid() =>
