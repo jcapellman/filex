@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using filex.Arguments;
 using filex.Arguments.Base;
 using filex.Enums;
 using filex.Objects;
@@ -66,12 +67,70 @@ namespace filex.tests
         }
 
         [TestMethod]
-        public void ValidMode()
+        public void ValidPredictModeButNoFilePath()
+        {
+            var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_PREDICTION.ToString() });
+
+            Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_PREDICTION);
+            Assert.IsFalse(parsed.ValidOption);
+        }
+
+        [TestMethod]
+        public void ValidPredictModeWithFilePath()
+        {
+            var fileName = Path.GetRandomFileName();
+
+            File.WriteAllText(fileName, "");
+
+            var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_PREDICTION.ToString(), "file",  fileName});
+
+            Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_PREDICTION);
+            Assert.IsTrue(parsed.ValidOption);
+        }
+
+        [TestMethod]
+        public void PredictNullFile()
+        {
+            var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_PREDICTION.ToString(), "file", null });
+
+            Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_PREDICTION);
+            Assert.IsFalse(parsed.ValidOption);
+        }
+
+        [TestMethod]
+        public void TrainNullFile()
+        {
+            var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_TRAIN.ToString(), "trainingpath", null });
+
+            Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_TRAIN);
+            Assert.IsFalse(parsed.ValidOption);
+        }
+
+        [TestMethod]
+        public void UnselectableMode()
+        {
+            var parsed = ArgumentParser.Parse(new[] {"mode", OperationMode.UNSELECTABLE.ToString() });
+
+            Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.UNSELECTABLE);
+            Assert.IsFalse(parsed.ValidOption);
+        }
+
+        [TestMethod]
+        public void ValidModeButNoTrainingPath()
         {
             var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_TRAIN.ToString() });
 
             Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_TRAIN);
             Assert.IsFalse(parsed.ValidOption);
+        }
+
+        [TestMethod]
+        public void ValidModeWithTrainingPath()
+        {
+            var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_TRAIN.ToString(), "trainingpath", "c:\\Windows" });
+
+            Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_TRAIN);
+            Assert.IsTrue(parsed.ValidOption);
         }
 
         [TestMethod]
