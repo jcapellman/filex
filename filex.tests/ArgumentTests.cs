@@ -50,7 +50,7 @@ namespace filex.tests
             var parsed = ArgumentParser.Parse(new string[] { "file",  fileName});
 
             Assert.IsNotNull(parsed.ArgResponse.FileNameForClassification);
-            Assert.IsFalse(parsed.ValidOption);
+            Assert.IsTrue(parsed.ValidOption);
         }
 
         [TestMethod]
@@ -69,6 +69,22 @@ namespace filex.tests
 
             Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_TRAIN);
             Assert.IsTrue(parsed.ValidOption);
+        }
+
+        [TestMethod]
+        public void InvalidVerbose()
+        {
+            var parsed = ArgumentParser.Parse(new string[] { "verbose", "blah" });
+
+            Assert.IsFalse(parsed.ArgResponse.Verbose);
+        }
+
+        [TestMethod]
+        public void ValidVerbose()
+        {
+            var parsed = ArgumentParser.Parse(new string[] { "verbose", "true" });
+
+            Assert.IsTrue(parsed.ArgResponse.Verbose);
         }
     }
 }
