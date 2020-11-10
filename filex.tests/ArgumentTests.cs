@@ -27,7 +27,7 @@ namespace filex.tests
         {
             var parsed = ArgumentParser.Parse(new string[] {"filea", "as"});
 
-            Assert.IsNull(parsed.ArgResponse.FileNameForClassification);
+            Assert.AreEqual(string.Empty, parsed.ArgResponse.FileNameForClassification);
             Assert.IsFalse(parsed.ValidOption);
         }
 
@@ -36,7 +36,7 @@ namespace filex.tests
         {
             var parsed = ArgumentParser.Parse(new string[] { "file", "as" });
 
-            Assert.IsNull(parsed.ArgResponse.FileNameForClassification);
+            Assert.IsTrue(string.IsNullOrEmpty(parsed.ArgResponse.FileNameForClassification));
             Assert.IsFalse(parsed.ValidOption);
         }
 

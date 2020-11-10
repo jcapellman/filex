@@ -4,6 +4,8 @@
     {
         public abstract string Argument { get; }
 
+        public abstract object DefaultValue { get; }
+
         public abstract string PropertyMap { get; }
 
         public abstract bool ValidArgument(string argValue);
