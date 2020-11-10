@@ -10,6 +10,8 @@ namespace filex.Arguments
     {
         public override string Argument => "mode";
 
+        public override object DefaultValue => OperationMode.MODEL_PREDICTION;
+
         public override string PropertyMap => nameof(ArgumentResponseItem.Mode);
 
         public override bool ValidArgument(string argValue) => Enum.TryParse(argValue, true, out OperationMode _);
