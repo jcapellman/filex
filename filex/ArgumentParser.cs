@@ -32,12 +32,12 @@ namespace filex
             {
                 throw new ArgumentException("Arguments come in pairs only");
             }
-
-            var response = new ArgumentResponseItem();
-
+            
             var validArguments = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(a => a.BaseType == typeof(BaseArgument) && !a.IsAbstract)
                 .Select(a => (BaseArgument) Activator.CreateInstance(a)).ToList();
+
+            var response = new ArgumentResponseItem(validArguments);
 
             for (var x = 0; x < args.Length; x += 2)
             {
@@ -60,16 +60,7 @@ namespace filex
                     continue;
                 }
 
-                var property = response.GetType().GetProperty(argument.PropertyMap);
-
-                if (property == null)
-                {
-                    Console.WriteLine($"Could not map {argument.PropertyMap} to the object");
-
-                    continue;
-                }
-
-                property.SetValue(response, argument.GetValue(argumentValue), null);
+                response.UpdateProperty(argument.PropertyMap, argument.GetValue(argumentValue));
             }
 
             return (response, response.IsValid());
