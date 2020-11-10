@@ -14,8 +14,15 @@ namespace filex.Objects
 
         public bool Verbose { get; set; }
 
+        public string TrainingPath { get; set; }
+
         public ArgumentResponseItem(IEnumerable<BaseArgument> arguments)
         {
+            if (arguments == null)
+            {
+                throw new ArgumentNullException(nameof(arguments));
+            }
+
             foreach (var argument in arguments)
             {
                 UpdateProperty(argument.PropertyMap, argument.DefaultValue);
@@ -38,12 +45,17 @@ namespace filex.Objects
             return true;
         }
 
-        public bool IsValid() =>
-            Mode switch
+        public bool IsValid()
+        {
+            switch (Mode)
             {
-                OperationMode.MODEL_PREDICTION => !string.IsNullOrEmpty(FileNameForClassification),
-                OperationMode.MODEL_TRAIN => false,
-                _ => false
-            };
+                case OperationMode.MODEL_PREDICTION:
+                    return !string.IsNullOrEmpty(FileNameForClassification);
+                case OperationMode.MODEL_TRAIN:
+                    return !string.IsNullOrEmpty(TrainingPath);
+                default:
+                    return false;
+            }
+        }
     }
 }
