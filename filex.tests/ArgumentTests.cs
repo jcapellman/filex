@@ -27,7 +27,8 @@ namespace filex.tests
         {
             var parsed = ArgumentParser.Parse(new string[] {"filea", "as"});
 
-            Assert.IsNull(parsed.FileNameForClassification);
+            Assert.IsNull(parsed.ArgResponse.FileNameForClassification);
+            Assert.IsFalse(parsed.ValidOption);
         }
 
         [TestMethod]
@@ -35,7 +36,8 @@ namespace filex.tests
         {
             var parsed = ArgumentParser.Parse(new string[] { "file", "as" });
 
-            Assert.IsNull(parsed.FileNameForClassification);
+            Assert.IsNull(parsed.ArgResponse.FileNameForClassification);
+            Assert.IsFalse(parsed.ValidOption);
         }
 
         [TestMethod]
@@ -47,7 +49,8 @@ namespace filex.tests
 
             var parsed = ArgumentParser.Parse(new string[] { "file",  fileName});
 
-            Assert.IsNotNull(parsed.FileNameForClassification);
+            Assert.IsNotNull(parsed.ArgResponse.FileNameForClassification);
+            Assert.IsFalse(parsed.ValidOption);
         }
 
         [TestMethod]
@@ -55,7 +58,8 @@ namespace filex.tests
         {
             var parsed = ArgumentParser.Parse(new string[] { "mode", "fileName" });
 
-            Assert.IsTrue(parsed.Mode == OperationMode.MODEL_PREDICTION);
+            Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_PREDICTION);
+            Assert.IsFalse(parsed.ValidOption);
         }
 
         [TestMethod]
@@ -63,7 +67,8 @@ namespace filex.tests
         {
             var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_TRAIN.ToString() });
 
-            Assert.IsTrue(parsed.Mode == OperationMode.MODEL_TRAIN);
+            Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_TRAIN);
+            Assert.IsTrue(parsed.ValidOption);
         }
     }
 }

@@ -12,5 +12,13 @@ namespace filex.Objects
         {
             Mode = OperationMode.MODEL_PREDICTION;
         }
+
+        public bool IsValid() =>
+            Mode switch
+            {
+                OperationMode.MODEL_PREDICTION => !string.IsNullOrEmpty(FileNameForClassification),
+                OperationMode.MODEL_TRAIN => false,
+                _ => false
+            };
     }
 }

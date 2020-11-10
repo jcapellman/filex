@@ -6,11 +6,16 @@
     {
         static void Main(string[] args)
         {
-            var argumentResponse = ArgumentParser.Parse(args);
+            var (argResponse, validOption) = ArgumentParser.Parse(args);
+
+            if (!validOption)
+            {
+                return;
+            }
 
             var modelRunner = new ModelRunner();
 
-            var prediction = modelRunner.RunModel(argumentResponse.FileNameForClassification);
+            var prediction = modelRunner.RunModel(argResponse.FileNameForClassification);
 
             Console.WriteLine(prediction);
         }

@@ -16,7 +16,7 @@ namespace filex
         /// <returns>Filename of the file to scan</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when args is null</exception>
         /// <exception cref="System.ArgumentException">Thrown when args is empty</exception>
-        public static ArgumentResponseItem Parse(string[] args)
+        public static (ArgumentResponseItem ArgResponse, bool ValidOption) Parse(string[] args)
         {
             if (args == null)
             {
@@ -72,7 +72,7 @@ namespace filex
                 property.SetValue(response, argument.GetValue(argumentValue), null);
             }
 
-            return response;
+            return (response, response.IsValid());
         }
     }
 }
