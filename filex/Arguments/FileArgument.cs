@@ -5,7 +5,7 @@ using filex.Objects;
 
 namespace filex.Arguments
 {
-    public class FilePath : BaseArgument
+    public class FileArgument : BaseArgument
     {
         public override string Argument => "file";
 
