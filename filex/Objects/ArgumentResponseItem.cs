@@ -8,9 +8,12 @@ namespace filex.Objects
 
         public OperationMode Mode { get; set; }
 
+        public bool Verbose { get; set; }
+
         public ArgumentResponseItem()
         {
             Mode = OperationMode.MODEL_PREDICTION;
+            Verbose = false;
         }
 
         public bool IsValid() =>

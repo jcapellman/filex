@@ -28,7 +28,7 @@ namespace filex
             // Load sie model
         }
 
-        public ModelPredictionResponse RunModel(string fileName)
+        public ModelPredictionResponse RunModel(ArgumentResponseItem responseItem)
         {
             var response = new ModelPredictionResponse();
 
