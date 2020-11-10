@@ -9,6 +9,8 @@ namespace filex.Arguments
     {
         public override string Argument => "file";
 
+        public override object DefaultValue => string.Empty;
+
         public override string PropertyMap => nameof(ArgumentResponseItem.FileNameForClassification);
 
         public override bool ValidArgument(string argValue) => !string.IsNullOrEmpty(argValue) && File.Exists(argValue);
