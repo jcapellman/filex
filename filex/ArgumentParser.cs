@@ -1,31 +1,20 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
+using System.Reflection;
 
-using filex.Enums;
+using filex.Arguments.Base;
 using filex.Objects;
 
 namespace filex
 {
     public class ArgumentParser
     {
-        private static string VerifyInputFile(string file)
-        {
-            if (!File.Exists(file))
-            {
-                throw new FileNotFoundException($"File: {file} does not exist");
-            }
-
-            return file;
-        }
-
         /// <summary>
         /// Parses the command line argument
         /// </summary>
         /// <param name="args">Contains the file name to scan</param>
         /// <returns>Filename of the file to scan</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when args is null</exception>
-        /// <exception cref="System.IO.FileNotFoundException">Throw when the file is not found</exception>
         /// <exception cref="System.ArgumentException">Thrown when args is empty</exception>
         public static ArgumentResponseItem Parse(string[] args)
         {
@@ -39,44 +28,48 @@ namespace filex
                 throw new ArgumentException("Args was empty");
             }
 
-            if (args.Length == 1)
-            {
-                return new ArgumentResponseItem
-                {
-                    FileNameForClassification = VerifyInputFile(args[0])
-                };
-            }
-
             if (args.Length % 2 != 0)
             {
-                throw new ArgumentException("Arguments come in pairs");
+                throw new ArgumentException("Arguments come in pairs only");
             }
 
             var response = new ArgumentResponseItem();
 
+            var validArguments = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(a => a.BaseType == typeof(BaseArgument) && !a.IsAbstract)
+                .Select(a => (BaseArgument) Activator.CreateInstance(a)).ToList();
+
             for (var x = 0; x < args.Length; x += 2)
             {
-                args[x] = args[x].ToLower();
+                var argumentKey = args[x].ToLower();
+                var argumentValue = args[x + 1];
 
-                switch (args[x])
+                var argument = validArguments.FirstOrDefault(a => a.Argument == argumentKey);
+
+                if (argument == null)
                 {
-                    case "file":
-                        response.FileNameForClassification = VerifyInputFile(args[x+1]);
-                        break;
-                    case "mode":
-                        if (!Enum.TryParse(args[x + 1], true, out OperationMode mode))
-                        {
-                            Console.WriteLine($"Invalid value for mode: {args[x+1]}");
-                            continue;
-                        }
+                    Console.WriteLine($"Invalid option: {argumentKey}");
 
-                        response.Mode = mode;
-
-                        break;
-                    default:
-                        Console.WriteLine($"Invalid option: {args[x]}");
-                        break;
+                    continue;
                 }
+
+                if (!argument.ValidArgument(argumentValue))
+                {
+                    Console.WriteLine($"{argumentValue} is an invalid value for {argumentKey}");
+
+                    continue;
+                }
+
+                var property = response.GetType().GetProperty(argument.PropertyMap);
+
+                if (property == null)
+                {
+                    Console.WriteLine($"Could not map {argument.PropertyMap} to the object");
+
+                    continue;
+                }
+
+                property.SetValue(response, argument.GetValue(argumentValue), null);
             }
 
             return response;
