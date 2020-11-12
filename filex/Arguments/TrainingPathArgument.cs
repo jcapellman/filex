@@ -9,6 +9,8 @@ namespace filex.Arguments
     {
         public override string Argument => "trainingpath";
 
+        public override string UsageText => "Path for a folder containing training data";
+
         public override object DefaultValue => string.Empty;
 
         public override string PropertyMap => nameof(ArgumentResponseItem.TrainingPath);

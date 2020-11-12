@@ -4,6 +4,8 @@
     {
         public abstract string Argument { get; }
 
+        public abstract string UsageText { get; }
+
         public abstract object DefaultValue { get; }
 
         public abstract string PropertyMap { get; }

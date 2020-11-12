@@ -9,6 +9,8 @@ namespace filex.Arguments
     {
         public override string Argument => "file";
 
+        public override string UsageText => "Path to the file to predict";
+
         public override object DefaultValue => string.Empty;
 
         public override string PropertyMap => nameof(ArgumentResponseItem.FileNameForClassification);

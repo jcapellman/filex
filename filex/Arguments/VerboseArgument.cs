@@ -7,6 +7,8 @@ namespace filex.Arguments
     {
         public override string Argument => "verbose";
 
+        public override string UsageText => "Provides verbose logging of all operations";
+
         public override object DefaultValue => false;
 
         public override string PropertyMap => nameof(ArgumentResponseItem.Verbose);

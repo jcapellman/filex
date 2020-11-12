@@ -10,6 +10,8 @@ namespace filex.Arguments
     {
         public override string Argument => "mode";
 
+        public override string UsageText => "Offers support for either training or prediction";
+
         public override object DefaultValue => OperationMode.MODEL_PREDICTION;
 
         public override string PropertyMap => nameof(ArgumentResponseItem.Mode);
