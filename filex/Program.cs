@@ -6,10 +6,15 @@
 {
     class Program
     {
+        static void DisplayArgumentHelp()
+        {
+            // TODO: Iterate through available options
+        }
+
         static void Main(string[] args)
         {
             ArgumentResponseItem argResponse;
-            bool validOption = false;
+            bool validOption;
 
             try
             {
@@ -17,17 +22,21 @@
             }
             catch (ArgumentNullException)
             {
-                // TODO: Handle
+                DisplayArgumentHelp();
+
                 return;
             }
             catch (ArgumentException)
             {
-                // TODO: Handle
+                DisplayArgumentHelp();
+
                 return;
             }
 
             if (!validOption)
             {
+                DisplayArgumentHelp();
+
                 return;
             }
 
