@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -9,6 +10,14 @@ namespace filex
 {
     public class ArgumentParser
     {
+        private static IEnumerable<BaseArgument> SupportedArguments =>
+            Assembly.GetExecutingAssembly().GetTypes()
+                .Where(a => a.BaseType == typeof(BaseArgument) && !a.IsAbstract)
+                .Select(a => (BaseArgument)Activator.CreateInstance(a)).ToList();
+
+        public static List<string> BuildHelpContext() => 
+            SupportedArguments.Select(argument => $"-{argument.Argument} (Default: {argument.DefaultValue}) - {argument.UsageText}").ToList();
+
         /// <summary>
         /// Parses the command line argument
         /// </summary>
@@ -33,11 +42,9 @@ namespace filex
                 throw new ArgumentException("Arguments come in pairs only");
             }
             
-            var validArguments = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(a => a.BaseType == typeof(BaseArgument) && !a.IsAbstract)
-                .Select(a => (BaseArgument) Activator.CreateInstance(a)).ToList();
+           
 
-            var response = new ArgumentResponseItem(validArguments);
+            var response = new ArgumentResponseItem(SupportedArguments);
 
             for (var x = 0; x < args.Length; x += 2)
             {

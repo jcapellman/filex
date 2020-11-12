@@ -6,9 +6,14 @@
 {
     class Program
     {
-        static void DisplayArgumentHelp()
+        private static void DisplayArgumentHelp()
         {
-            // TODO: Iterate through available options
+            var arguments = ArgumentParser.BuildHelpContext();
+
+            foreach (var argumentText in arguments)
+            {
+                Console.WriteLine(argumentText);
+            }
         }
 
         static void Main(string[] args)
