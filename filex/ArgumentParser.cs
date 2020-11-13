@@ -37,13 +37,6 @@ namespace filex
                 throw new ArgumentException("Args was empty");
             }
 
-            if (args.Length % 2 != 0)
-            {
-                throw new ArgumentException("Arguments come in pairs only");
-            }
-            
-           
-
             var response = new ArgumentResponseItem(SupportedArguments);
 
             for (var x = 0; x < args.Length; x += 2)
@@ -51,7 +44,7 @@ namespace filex
                 var argumentKey = args[x].ToLower();
                 var argumentValue = args[x + 1];
 
-                var argument = validArguments.FirstOrDefault(a => a.Argument == argumentKey);
+                var argument = SupportedArguments.FirstOrDefault(a => a.Argument == argumentKey);
 
                 if (argument == null)
                 {

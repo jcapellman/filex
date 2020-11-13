@@ -134,13 +134,6 @@ namespace filex.tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void OddArgumentCount()
-        {
-            var parsed = ArgumentParser.Parse(new[] {"file", "as", "verbose"});
-        }
-
-        [TestMethod]
         public void InvalidVerbose()
         {
             var parsed = ArgumentParser.Parse(new string[] { "verbose", "blah" });

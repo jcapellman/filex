@@ -19,5 +19,7 @@ namespace filex.Arguments
         public override bool ValidArgument(string argValue) => Enum.TryParse(argValue, true, out OperationMode _);
 
         public override object GetValue(string argValue) => Enum.Parse(typeof(OperationMode), argValue);
+
+        public override bool KeyOnly => false;
     }
 }

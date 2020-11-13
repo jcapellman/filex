@@ -7,7 +7,7 @@ namespace filex.Arguments
     {
         public override string Argument => "verbose";
 
-        public override string UsageText => "Provides verbose logging of all operations";
+        public override string UsageText => "Provides verbose logging of all operations (true | false)";
 
         public override object DefaultValue => false;
 
@@ -16,5 +16,7 @@ namespace filex.Arguments
         public override bool ValidArgument(string argValue) => bool.TryParse(argValue, out var _);
 
         public override object GetValue(string argValue) => bool.Parse(argValue);
+
+        public override bool KeyOnly => false;
     }
 }

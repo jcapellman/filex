@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using filex.Arguments.Base;
 using filex.Enums;
 
@@ -23,7 +23,7 @@ namespace filex.Objects
                 throw new ArgumentNullException(nameof(arguments));
             }
 
-            foreach (var argument in arguments)
+            foreach (var argument in arguments.Where(a => !a.KeyOnly))
             {
                 UpdateProperty(argument.PropertyMap, argument.DefaultValue);
             }

@@ -13,5 +13,7 @@
         public abstract bool ValidArgument(string argValue);
 
         public abstract object GetValue(string argValue);
+
+        public abstract bool KeyOnly { get; }
     }
 }

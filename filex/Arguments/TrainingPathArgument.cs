@@ -18,5 +18,7 @@ namespace filex.Arguments
         public override bool ValidArgument(string argValue) => !string.IsNullOrEmpty(argValue) && Directory.Exists(argValue);
 
         public override object GetValue(string argValue) => argValue;
+
+        public override bool KeyOnly => false;
     }
 }
