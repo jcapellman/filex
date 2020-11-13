@@ -1,5 +1,6 @@
 ﻿ using System;
 
+ using filex.Common;
  using filex.Objects;
 
  namespace filex
@@ -9,6 +10,8 @@
         private static void DisplayArgumentHelp()
         {
             var arguments = ArgumentParser.BuildHelpContext();
+
+            Console.WriteLine($"{Constants.APP_NAME}{System.Environment.NewLine}Usage Help");
 
             foreach (var argumentText in arguments)
             {
