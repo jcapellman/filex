@@ -53,6 +53,50 @@ namespace filex.tests
         }
 
         [TestMethod]
+        public void VersionUsageText()
+        {
+            var verArgument = new VersionArgument();
+
+            Assert.IsNotNull(verArgument.UsageText);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void VersionArgumentNotImplementedDefaultValue()
+        {
+            var version = new VersionArgument();
+
+            var val = version.DefaultValue;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void VersionArgumentNotImplementedPropertyMap()
+        {
+            var version = new VersionArgument();
+
+            var val = version.PropertyMap;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void VersionArgumentValidOption()
+        {
+            var version = new VersionArgument();
+            
+            version.ValidArgument(string.Empty);
+        }
+
+        [TestMethod]
+        public void VersionArgumentGetValue()
+        {
+            var version = new VersionArgument();
+
+            Assert.IsNotNull(version.GetValue(string.Empty));
+        }
+
+        [TestMethod]
         public void InvalidBlankspaceOption()
         {
             var parsed = ArgumentParser.Parse(new string[] { "filea", " " });
