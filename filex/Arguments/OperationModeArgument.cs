@@ -29,5 +29,7 @@ namespace filex.Arguments
         public override object GetValue(string argValue) => Enum.Parse(typeof(OperationMode), argValue);
 
         public override bool KeyOnly => false;
+
+        public override bool SupportsDefaultValue => false;
     }
 }

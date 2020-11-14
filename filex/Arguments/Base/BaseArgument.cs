@@ -15,5 +15,7 @@
         public abstract object GetValue(string argValue);
 
         public abstract bool KeyOnly { get; }
+
+        public abstract bool SupportsDefaultValue { get; }
     }
 }

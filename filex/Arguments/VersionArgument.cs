@@ -20,5 +20,7 @@ namespace filex.Arguments
         public override object GetValue(string argValue) => Assembly.GetExecutingAssembly().GetName().Version;
 
         public override bool KeyOnly => true;
+
+        public override bool SupportsDefaultValue => false;
     }
 }
