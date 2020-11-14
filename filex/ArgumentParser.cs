@@ -10,6 +10,9 @@ namespace filex
 {
     public class ArgumentParser
     {
+        private const int INCREMENTER_KEY_ONLY = 1;
+        private const int INCREMENTER_KEY_VALUE = 2;
+
         private static IEnumerable<BaseArgument> SupportedArguments =>
             Assembly.GetExecutingAssembly().GetTypes()
                 .Where(a => a.BaseType == typeof(BaseArgument) && !a.IsAbstract)
@@ -39,11 +42,12 @@ namespace filex
 
             var response = new ArgumentResponseItem(SupportedArguments);
 
-            for (var x = 0; x < args.Length; x += 2)
+            var incrementer = INCREMENTER_KEY_VALUE;
+
+            for (var x = 0; x < args.Length; x += incrementer)
             {
                 var argumentKey = args[x].ToLower();
-                var argumentValue = args[x + 1];
-
+                
                 var argument = SupportedArguments.FirstOrDefault(a => a.Argument == argumentKey);
 
                 if (argument == null)
@@ -52,6 +56,24 @@ namespace filex
 
                     continue;
                 }
+
+                if (argument.KeyOnly)
+                {
+                    incrementer = INCREMENTER_KEY_ONLY;
+
+                    continue;
+                }
+
+                incrementer = INCREMENTER_KEY_VALUE;
+
+                if (args.Length < x + 1)
+                {
+                    // Additional argument not found
+
+                    continue;
+                }
+
+                var argumentValue = args[x + 1];
 
                 if (!argument.ValidArgument(argumentValue))
                 {
