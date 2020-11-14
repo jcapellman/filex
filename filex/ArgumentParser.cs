@@ -66,11 +66,11 @@ namespace filex
 
                 incrementer = INCREMENTER_KEY_VALUE;
 
-                if (args.Length < x + 1)
+                if (args.Length < x + incrementer)
                 {
                     Console.WriteLine($"{argumentKey} requires a value, but was not found");
 
-                    continue;
+                    throw new ArgumentException($"Associated value for {argumentKey} was not found");
                 }
 
                 var argumentValue = args[x + 1];

@@ -27,6 +27,13 @@ namespace filex.tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void KeyNoValue()
+        {
+            var parsed = ArgumentParser.Parse(new string[] { "trainingpath" });
+        }
+
+        [TestMethod]
         public void InvalidOption()
         {
             var parsed = ArgumentParser.Parse(new string[] {"filea", "as"});
