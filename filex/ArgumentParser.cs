@@ -21,7 +21,7 @@ namespace filex
         public static List<string> BuildHelpContext() => 
             SupportedArguments.Select(argument => $"-{argument.Argument}" + 
                                                   (argument.KeyOnly ? string.Empty : $" (Default: {argument.DefaultValue})") + 
-                                                  " - {argument.UsageText}").ToList();
+                                                  $" - {argument.UsageText}").ToList();
 
         /// <summary>
         /// Parses the command line argument
