@@ -12,11 +12,19 @@ namespace filex.Arguments
 
         public override string UsageText => "Offers support for either training or prediction";
 
-        public override object DefaultValue => OperationMode.MODEL_PREDICTION;
+        public override object DefaultValue => OperationMode.UNSELECTABLE;
 
         public override string PropertyMap => nameof(ArgumentResponseItem.Mode);
 
-        public override bool ValidArgument(string argValue) => Enum.TryParse(argValue, true, out OperationMode _);
+        public override bool ValidArgument(string argValue)
+        {
+            if (!Enum.TryParse(argValue, true, out OperationMode val))
+            {
+                return false;
+            }
+
+            return val != OperationMode.UNSELECTABLE;
+        }
 
         public override object GetValue(string argValue) => Enum.Parse(typeof(OperationMode), argValue);
 

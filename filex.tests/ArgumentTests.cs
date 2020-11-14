@@ -44,6 +44,15 @@ namespace filex.tests
         }
 
         [TestMethod]
+        public void VersionArgumentChecks()
+        {
+            var parsed = ArgumentParser.Parse(new []{"version"});
+
+            Assert.IsNotNull(parsed);
+            Assert.IsFalse(parsed.ValidOption);
+        }
+
+        [TestMethod]
         public void InvalidBlankspaceOption()
         {
             var parsed = ArgumentParser.Parse(new string[] { "filea", " " });
@@ -77,7 +86,7 @@ namespace filex.tests
 
             File.WriteAllText(fileName, "test");
 
-            var parsed = ArgumentParser.Parse(new string[] { "file",  fileName});
+            var parsed = ArgumentParser.Parse(new string[] { "file",  fileName, "mode", OperationMode.MODEL_PREDICTION.ToString()});
 
             Assert.IsNotNull(parsed.ArgResponse.FileNameForClassification);
             Assert.IsTrue(parsed.ValidOption);
@@ -88,7 +97,7 @@ namespace filex.tests
         {
             var parsed = ArgumentParser.Parse(new string[] { "mode", "fileName" });
 
-            Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_PREDICTION);
+            Assert.IsFalse(parsed.ArgResponse.Mode == OperationMode.MODEL_PREDICTION);
             Assert.IsFalse(parsed.ValidOption);
         }
 
