@@ -68,7 +68,7 @@ namespace filex
 
                 if (args.Length < x + 1)
                 {
-                    // Additional argument not found
+                    Console.WriteLine($"{argumentKey} requires a value, but was not found");
 
                     continue;
                 }
