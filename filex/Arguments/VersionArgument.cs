@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 using filex.Arguments.Base;
 
@@ -10,11 +11,11 @@ namespace filex.Arguments
 
         public override string UsageText => "Retrieves the version of the application";
 
-        public override object DefaultValue => null;
+        public override object DefaultValue => throw new NotImplementedException();
 
-        public override string PropertyMap => null;
+        public override string PropertyMap => throw new NotImplementedException();
 
-        public override bool ValidArgument(string argValue) => false;
+        public override bool ValidArgument(string argValue) => throw new NotImplementedException();
 
         public override object GetValue(string argValue) => Assembly.GetExecutingAssembly().GetName().Version;
 
