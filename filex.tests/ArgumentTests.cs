@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using filex.Arguments;
 using filex.Arguments.Base;
 using filex.Enums;
@@ -31,6 +32,24 @@ namespace filex.tests
         public void KeyNoValue()
         {
             var parsed = ArgumentParser.Parse(new string[] { "trainingpath" });
+        }
+
+        [TestMethod]
+        public void UsageTextReturns()
+        {
+            var parsed = ArgumentParser.BuildHelpContext();
+
+            Assert.IsNotNull(parsed);
+            Assert.IsTrue(parsed.Any());
+        }
+
+        [TestMethod]
+        public void InvalidBlankspaceOption()
+        {
+            var parsed = ArgumentParser.Parse(new string[] { "filea", " " });
+
+            Assert.AreEqual(string.Empty, parsed.ArgResponse.FileNameForClassification);
+            Assert.IsFalse(parsed.ValidOption);
         }
 
         [TestMethod]
