@@ -14,5 +14,13 @@ namespace filex.tests.Arguments
 
             Assert.IsNotNull(omArgument.UsageText);
         }
+
+        [TestMethod]
+        public void OperationModeArgument_DefaultValue()
+        {
+            var omArgument = new OperationModeArgument();
+
+            Assert.IsFalse(omArgument.SupportsDefaultValue);
+        }
     }
 }

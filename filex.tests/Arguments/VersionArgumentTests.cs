@@ -26,6 +26,13 @@ namespace filex.tests.Arguments
             Assert.IsNotNull(verArgument.UsageText);
         }
 
+        [TestMethod]
+        public void VersionArgument_SupportDefault()
+        {
+            var verArgument = new VersionArgument();
+
+            Assert.IsFalse(verArgument.SupportsDefaultValue);
+        }
 
         [TestMethod]
         [ExpectedException(typeof(NotImplementedException))]

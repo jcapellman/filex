@@ -32,7 +32,7 @@ namespace filex.tests
         [ExpectedException(typeof(ArgumentException))]
         public void KeyNoValue()
         {
-            var parsed = ArgumentParser.Parse(new string[] { "trainingpath" });
+            var parsed = ArgumentParser.Parse(new string[] { "-trainingpath" });
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace filex.tests
         [TestMethod]
         public void InvalidBlankspaceOption()
         {
-            var parsed = ArgumentParser.Parse(new string[] { "filea", " " });
+            var parsed = ArgumentParser.Parse(new string[] { "-filea", " " });
 
             Assert.AreEqual(string.Empty, parsed.ArgResponse.FileNameForClassification);
             Assert.IsFalse(parsed.ValidOption);
@@ -57,7 +57,7 @@ namespace filex.tests
         [TestMethod]
         public void InvalidOption()
         {
-            var parsed = ArgumentParser.Parse(new string[] {"filea", "as"});
+            var parsed = ArgumentParser.Parse(new string[] {"-filea", "as"});
 
             Assert.AreEqual(string.Empty, parsed.ArgResponse.FileNameForClassification);
             Assert.IsFalse(parsed.ValidOption);
@@ -66,7 +66,7 @@ namespace filex.tests
         [TestMethod]
         public void InvalidMode()
         {
-            var parsed = ArgumentParser.Parse(new string[] { "mode", "fileName" });
+            var parsed = ArgumentParser.Parse(new string[] { "-mode", "fileName" });
 
             Assert.IsFalse(parsed.ArgResponse.Mode == OperationMode.MODEL_PREDICTION);
             Assert.IsFalse(parsed.ValidOption);
@@ -75,7 +75,7 @@ namespace filex.tests
         [TestMethod]
         public void ValidPredictModeButNoFilePath()
         {
-            var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_PREDICTION.ToString() });
+            var parsed = ArgumentParser.Parse(new string[] { "-mode", OperationMode.MODEL_PREDICTION.ToString() });
 
             Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_PREDICTION);
             Assert.IsFalse(parsed.ValidOption);
@@ -88,7 +88,7 @@ namespace filex.tests
 
             File.WriteAllText(fileName, "");
 
-            var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_PREDICTION.ToString(), "file",  fileName});
+            var parsed = ArgumentParser.Parse(new string[] { "-mode", OperationMode.MODEL_PREDICTION.ToString(), "-file",  fileName});
 
             Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_PREDICTION);
             Assert.IsTrue(parsed.ValidOption);
@@ -97,7 +97,7 @@ namespace filex.tests
         [TestMethod]
         public void PredictNullFile()
         {
-            var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_PREDICTION.ToString(), "file", null });
+            var parsed = ArgumentParser.Parse(new string[] { "-mode", OperationMode.MODEL_PREDICTION.ToString(), "-file", null });
 
             Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_PREDICTION);
             Assert.IsFalse(parsed.ValidOption);
@@ -106,7 +106,7 @@ namespace filex.tests
         [TestMethod]
         public void TrainNullFile()
         {
-            var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_TRAIN.ToString(), "trainingpath", null });
+            var parsed = ArgumentParser.Parse(new string[] { "-mode", OperationMode.MODEL_TRAIN.ToString(), "-trainingpath", null });
 
             Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_TRAIN);
             Assert.IsFalse(parsed.ValidOption);
@@ -115,7 +115,7 @@ namespace filex.tests
         [TestMethod]
         public void UnselectableMode()
         {
-            var parsed = ArgumentParser.Parse(new[] {"mode", OperationMode.UNSELECTABLE.ToString() });
+            var parsed = ArgumentParser.Parse(new[] {"-mode", OperationMode.UNSELECTABLE.ToString() });
 
             Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.UNSELECTABLE);
             Assert.IsFalse(parsed.ValidOption);
@@ -124,7 +124,7 @@ namespace filex.tests
         [TestMethod]
         public void ValidModeButNoTrainingPath()
         {
-            var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_TRAIN.ToString() });
+            var parsed = ArgumentParser.Parse(new string[] { "-mode", OperationMode.MODEL_TRAIN.ToString() });
 
             Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_TRAIN);
             Assert.IsFalse(parsed.ValidOption);
@@ -133,7 +133,7 @@ namespace filex.tests
         [TestMethod]
         public void ValidModeWithTrainingPath()
         {
-            var parsed = ArgumentParser.Parse(new string[] { "mode", OperationMode.MODEL_TRAIN.ToString(), "trainingpath", "c:\\Windows" });
+            var parsed = ArgumentParser.Parse(new string[] { "-mode", OperationMode.MODEL_TRAIN.ToString(), "-trainingpath", "c:\\Windows" });
 
             Assert.IsTrue(parsed.ArgResponse.Mode == OperationMode.MODEL_TRAIN);
             Assert.IsTrue(parsed.ValidOption);
@@ -142,7 +142,7 @@ namespace filex.tests
         [TestMethod]
         public void InvalidVerbose()
         {
-            var parsed = ArgumentParser.Parse(new string[] { "verbose", "blah" });
+            var parsed = ArgumentParser.Parse(new string[] { "-verbose", "blah" });
 
             Assert.IsFalse(parsed.ArgResponse.Verbose);
         }
@@ -150,7 +150,7 @@ namespace filex.tests
         [TestMethod]
         public void ValidVerbose()
         {
-            var parsed = ArgumentParser.Parse(new string[] { "verbose", "true" });
+            var parsed = ArgumentParser.Parse(new string[] { "-verbose", "true" });
 
             Assert.IsTrue(parsed.ArgResponse.Verbose);
         }

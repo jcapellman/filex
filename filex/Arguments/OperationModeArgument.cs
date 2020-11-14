@@ -10,7 +10,8 @@ namespace filex.Arguments
     {
         public override string Argument => "mode";
 
-        public override string UsageText => $"Offers support for either training or prediction (Options: {string.Join(',', OperationModeExtensions.GetOperationModeList())})";
+        public override string UsageText => $"Offers support for either training or prediction (Options:" 
+                                            + $" {string.Join(',', OperationModeExtensions.GetOperationModeList())})";
 
         public override object DefaultValue => OperationMode.UNSELECTABLE;
 

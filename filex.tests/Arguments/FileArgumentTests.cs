@@ -28,13 +28,21 @@ namespace filex.tests.Arguments
         }
 
         [TestMethod]
+        public void FileArgument_DefaultValue()
+        {
+            var fArgument = new FileArgument();
+
+            Assert.IsFalse(fArgument.SupportsDefaultValue);
+        }
+
+        [TestMethod]
         public void ValidFile()
         {
             var fileName = Path.GetRandomFileName();
 
             File.WriteAllText(fileName, "test");
 
-            var parsed = ArgumentParser.Parse(new string[] { "file", fileName, "mode", OperationMode.MODEL_PREDICTION.ToString() });
+            var parsed = ArgumentParser.Parse(new string[] { "-file", fileName, "-mode", OperationMode.MODEL_PREDICTION.ToString() });
 
             Assert.IsNotNull(parsed.ArgResponse.FileNameForClassification);
             Assert.IsTrue(parsed.ValidOption);
