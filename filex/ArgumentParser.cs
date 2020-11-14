@@ -13,6 +13,8 @@ namespace filex
         private const int INCREMENTER_KEY_ONLY = 1;
         private const int INCREMENTER_KEY_VALUE = 2;
 
+        private const char ARGUMENT_PREFIX = '-';
+
         private static IEnumerable<BaseArgument> SupportedArguments =>
             Assembly.GetExecutingAssembly().GetTypes()
                 .Where(a => a.BaseType == typeof(BaseArgument) && !a.IsAbstract)
@@ -48,7 +50,14 @@ namespace filex
 
             for (var x = 0; x < args.Length; x += incrementer)
             {
-                var argumentKey = args[x].ToLower();
+                if (!args[x].StartsWith(ARGUMENT_PREFIX))
+                {
+                    Console.WriteLine($"Invalid option: {args[x]}");
+
+                    continue;
+                }
+
+                var argumentKey = args[x].ToLower().Substring(1);
                 
                 var argument = SupportedArguments.FirstOrDefault(a => a.Argument == argumentKey);
 
