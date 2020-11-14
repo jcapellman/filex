@@ -19,7 +19,9 @@ namespace filex
                 .Select(a => (BaseArgument)Activator.CreateInstance(a)).ToList();
 
         public static List<string> BuildHelpContext() => 
-            SupportedArguments.Select(argument => $"-{argument.Argument} (Default: {argument.DefaultValue}) - {argument.UsageText}").ToList();
+            SupportedArguments.Select(argument => $"-{argument.Argument}" + 
+                                                  (argument.KeyOnly ? string.Empty : $" (Default: {argument.DefaultValue})") + 
+                                                  " - {argument.UsageText}").ToList();
 
         /// <summary>
         /// Parses the command line argument
