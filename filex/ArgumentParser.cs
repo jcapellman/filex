@@ -20,7 +20,7 @@ namespace filex
 
         public static List<string> BuildHelpContext() => 
             SupportedArguments.Select(argument => $"-{argument.Argument}" + 
-                                                  (argument.KeyOnly ? string.Empty : $" (Default: {argument.DefaultValue})") + 
+                                                  (argument.KeyOnly || !argument.SupportsDefaultValue ? string.Empty : $" (Default: {argument.DefaultValue})") + 
                                                   $" - {argument.UsageText}").ToList();
 
         /// <summary>
