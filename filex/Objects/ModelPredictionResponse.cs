@@ -1,9 +1,14 @@
-﻿namespace filex.Objects
+﻿using Microsoft.ML.Data;
+
+namespace filex.Objects
 {
     public class ModelPredictionResponse
     {
-        public bool IsMalicious { get; set; }
+        [ColumnName("PredictedLabel")]
+        public bool Prediction;
 
-        public float Confidence { get; set; }
+        public float Probability;
+
+        public float Score;
     }
 }
