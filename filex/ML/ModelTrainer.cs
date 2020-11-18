@@ -56,7 +56,7 @@ namespace filex.ML
             var metrics = mlContext.BinaryClassification.Evaluate(data: predictions, 
                 labelColumnName: nameof(ModelPredictionRequest.Label), scoreColumnName: "Score");
 
-            Console.WriteLine($"F! Score: {metrics.F1Score}");
+            Console.WriteLine($"F1 Score: {metrics.F1Score}");
 
             return true;
         }
