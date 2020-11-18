@@ -1,6 +1,8 @@
 ﻿ using System;
 
  using filex.Common;
+ using filex.Enums;
+ using filex.ML;
  using filex.Objects;
 
  namespace filex
@@ -48,11 +50,24 @@
                 return;
             }
 
-            var modelRunner = new ModelRunner();
+            if (argResponse.Verbose)
+            {
+                Console.WriteLine($"Argument Parsed Values: {System.Environment.NewLine}\t{argResponse}{System.Environment.NewLine}");
+            }
 
-            var prediction = modelRunner.RunModel(argResponse);
+            switch (argResponse.Mode)
+            {
+                case OperationMode.MODEL_PREDICTION:
+                    var modelRunner = new ModelRunner();
 
-            Console.WriteLine(prediction);
+                    var prediction = modelRunner.RunModel(argResponse);
+
+                    Console.WriteLine(prediction);
+                    break;
+                case OperationMode.MODEL_TRAIN:
+                    ModelTrainer.TrainModel(argResponse.TrainingPath);
+                    break;
+            }
         }
     }
 }
