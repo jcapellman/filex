@@ -16,6 +16,13 @@ namespace filex.Objects
 
         public string TrainingPath { get; set; }
 
+        public override string ToString()
+        {
+            var props = this.GetType().GetProperties();
+
+            return string.Join(",", props.Select(prop => $"{prop.Name}: {prop.GetValue(this)}").ToList());
+        }
+
         public ArgumentResponseItem(IEnumerable<BaseArgument> arguments)
         {
             if (arguments == null)
