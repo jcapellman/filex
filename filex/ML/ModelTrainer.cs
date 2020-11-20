@@ -11,8 +11,18 @@ namespace filex.ML
 {
     public class ModelTrainer
     {
-        private static IEnumerable<ModelPredictionRequest> FeatureExtraction(string path)
+        public static IEnumerable<ModelPredictionRequest> FeatureExtraction(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentNullException($"Path was not set");
+            }
+
+            if (!Directory.Exists(path))
+            {
+                throw new DirectoryNotFoundException($"Path: {path} not found");
+            }
+
             var files = Directory.GetFiles(path);
 
             return files.Select(file => new ModelPredictionRequest(file));
