@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using filex.Objects;
 
@@ -10,28 +11,11 @@ namespace filex.ML
 {
     public class ModelTrainer
     {
-        private static List<ModelPredictionRequest> FeatureExtraction(string path)
+        private static IEnumerable<ModelPredictionRequest> FeatureExtraction(string path)
         {
             var files = Directory.GetFiles(path);
 
-            var requests = new List<ModelPredictionRequest>();
-
-            foreach (var file in files)
-            {
-                var fi = new FileInfo(file);
-
-                var fileBytes = File.ReadAllBytes(file);
-
-                var isPe = System.Text.Encoding.ASCII.GetString(fileBytes.AsSpan().Slice(0, 2)) == "MZ";
-
-                requests.Add( new ModelPredictionRequest { 
-                    Label = fi.Name.Contains("benign"),
-                    IsPE = isPe ? 1.0f : 0.0f,
-                    FileSize = fi.Length
-                    });
-            }
-
-            return requests;
+            return files.Select(file => new ModelPredictionRequest(file));
         }
 
         public static bool TrainModel(string trainingDataPath)
