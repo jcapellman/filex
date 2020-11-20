@@ -169,5 +169,13 @@ namespace filex.tests
 
             argumentResponse.UpdateProperty("blah", null);
         }
+
+        [TestMethod]
+        public void ArgumentTests_ToString()
+        {
+            var argumentResponse = new ArgumentResponseItem(new List<BaseArgument>());
+
+            Assert.IsNotNull(argumentResponse.ToString());
+        }
     }
 }
