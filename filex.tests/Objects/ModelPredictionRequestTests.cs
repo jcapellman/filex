@@ -27,10 +27,14 @@ namespace filex.tests.Objects
         [TestMethod]
         public void ModelPredictionRequest_PE_File()
         {
-            var request = new ModelPredictionRequest(Path.Combine(Environment.GetEnvironmentVariable("windir") ?? string.Empty, "explorer.exe"));
+            var explorerPath =
+                Path.Combine(Environment.GetEnvironmentVariable("windir") ?? string.Empty, "explorer.exe");
+
+            var request = new ModelPredictionRequest(explorerPath);
 
             Assert.AreEqual(1.0, request.IsPE);
             Assert.IsFalse(request.Label);
+            Assert.AreEqual(new FileInfo(explorerPath).Length, request.FileSize);
         }
     }
 }
