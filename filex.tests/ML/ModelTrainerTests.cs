@@ -32,5 +32,25 @@ namespace filex.tests.ML
 
             Assert.IsTrue(files.Any());
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ModelTrainer_TrainModel_NullPath()
+        {
+            ModelTrainer.TrainModel(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(DirectoryNotFoundException))]
+        public void ModelTrainer_TrainModel_InvalidPath()
+        {
+            ModelTrainer.TrainModel("null");
+        }
+
+        [TestMethod]
+        public void ModelTrainer_TrainModel_ValidPath()
+        {
+            ModelTrainer.TrainModel(AppContext.BaseDirectory);
+        }
     }
 }

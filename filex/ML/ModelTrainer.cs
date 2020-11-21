@@ -30,6 +30,11 @@ namespace filex.ML
 
         public static bool TrainModel(string trainingDataPath)
         {
+            if (string.IsNullOrEmpty(trainingDataPath))
+            {
+                throw new ArgumentNullException($"TrainingDataPath was not set");
+            }
+
             var mlContext = new MLContext(1985);
 
             var data = FeatureExtraction(trainingDataPath);
