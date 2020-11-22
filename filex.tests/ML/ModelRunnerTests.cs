@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace filex.tests
+namespace filex.tests.ML
 {
     [TestClass]
     public class ModelRunnerTests
