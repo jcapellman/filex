@@ -50,7 +50,7 @@ namespace filex.tests.ML
         [TestMethod]
         public void ModelTrainer_TrainModel_ValidPath()
         {
-            ModelTrainer.TrainModel(AppContext.BaseDirectory);
+            ModelTrainer.TrainModel(Path.Combine(AppContext.BaseDirectory, @"..\..\..\Samples"));
         }
     }
 }
