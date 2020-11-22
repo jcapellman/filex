@@ -7,6 +7,11 @@ namespace filex.Objects
 {
     public class ModelPredictionRequest
     {
+        private const float TRUE = 1.0f;
+        private const float FALSE = 0.0f;
+
+        private const int MIN_HEADER_SIZE = 2;
+
         [LoadColumn(0)]
         public float FileSize { get; set; }
 
@@ -32,7 +37,14 @@ namespace filex.Objects
 
             var fileBytes = File.ReadAllBytes(fileName);
 
-            IsPE = System.Text.Encoding.ASCII.GetString(fileBytes.AsSpan().Slice(0, 2)) == "MZ" ? 1.0f : 0.0f;
+            if (fileBytes.Length < MIN_HEADER_SIZE)
+            {
+                IsPE = FALSE;
+            }
+            else
+            {
+                IsPE = System.Text.Encoding.ASCII.GetString(fileBytes.AsSpan().Slice(0, MIN_HEADER_SIZE)) == "MZ" ? TRUE : FALSE;
+            }
 
             FileSize = fileBytes.Length;
         }
