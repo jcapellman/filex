@@ -25,6 +25,16 @@ namespace filex.tests.Objects
         }
 
         [TestMethod]
+        public void ModelPredictionRequest_SmallFile()
+        {
+            var randomFile = Path.GetRandomFileName();
+
+            File.WriteAllText(randomFile, "1");
+
+            var request = new ModelPredictionRequest(randomFile);
+        }
+
+        [TestMethod]
         public void ModelPredictionRequest_PE_File()
         {
             var explorerPath =
