@@ -54,6 +54,9 @@ namespace filex.tests.ML
 
             Assert.IsTrue(metrics.AUC > 0.0);
             Assert.IsTrue(metrics.Entropy > 0.0);
+            Assert.IsTrue(metrics.F1Score == 0.0);
+            Assert.IsTrue(metrics.NegativeRecall > 0.0);
+            Assert.IsTrue(metrics.PositiveRecall == 0.0);
         }
     }
 }

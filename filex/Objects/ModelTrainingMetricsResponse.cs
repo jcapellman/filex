@@ -8,10 +8,19 @@ namespace filex.Objects
 
         public double Entropy { get; }
 
+        public double F1Score { get; }
+
+        public double PositiveRecall { get; }
+
+        public double NegativeRecall { get; }
+
         public ModelTrainingMetricsResponse(CalibratedBinaryClassificationMetrics metric)
         {
             AUC = metric.AreaUnderRocCurve;
             Entropy = metric.Entropy;
+            F1Score = metric.F1Score;
+            PositiveRecall = metric.PositiveRecall;
+            NegativeRecall = metric.NegativeRecall;
         }
     }
 }
