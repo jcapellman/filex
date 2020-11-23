@@ -4,9 +4,9 @@ namespace filex.Objects
 {
     public class ModelTrainingMetricsResponse
     {
-        public double AUC { get; private set; }
+        public double AUC { get; }
 
-        public double Entropy { get; private set; }
+        public double Entropy { get; }
 
         public ModelTrainingMetricsResponse(CalibratedBinaryClassificationMetrics metric)
         {
