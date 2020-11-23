@@ -50,7 +50,10 @@ namespace filex.tests.ML
         [TestMethod]
         public void ModelTrainer_TrainModel_ValidPath()
         {
-            ModelTrainer.TrainModel(Path.Combine(AppContext.BaseDirectory, @"..\..\..\Samples"));
+            var metrics = ModelTrainer.TrainModel(Path.Combine(AppContext.BaseDirectory, @"..\..\..\Samples"));
+
+            Assert.IsTrue(metrics.AUC > 0.0);
+            Assert.IsTrue(metrics.Entropy > 0.0);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using filex.Common;
 using filex.Objects;
 
@@ -28,7 +29,7 @@ namespace filex.ML
             return files.Select(file => new ModelPredictionRequest(file));
         }
 
-        public static bool TrainModel(string trainingDataPath)
+        public static ModelTrainingMetricsResponse TrainModel(string trainingDataPath)
         {
             if (string.IsNullOrEmpty(trainingDataPath))
             {
@@ -61,9 +62,7 @@ namespace filex.ML
                 scoreColumnName: "Score",
                 predictedLabelColumnName: nameof(ModelPredictionRequest.Label));
 
-            Console.WriteLine($"F1 Score: {metrics.F1Score}");
-
-            return true;
+            return new ModelTrainingMetricsResponse(metrics);
         }
     }
 }
