@@ -1,36 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
-using filex.Common;
 using filex.Objects;
+using filex.Parsers.Base;
 
 namespace filex
 {
     public class ModelRunner
     {
-        public ModelRunner(string modelFile = Constants.DEFAULT_MODEL_FILENAME)
+        private readonly List<BaseParser> _parsers;
+
+        public ModelRunner()
         {
-            if (string.IsNullOrEmpty(modelFile))
-            {
-                throw new ArgumentNullException(nameof(modelFile));
-            }
-
-            LoadModel(modelFile);
-        }
-
-        private static void LoadModel(string fileName)
-        {
-            if (!File.Exists(fileName))
-            {
-                throw new FileNotFoundException(fileName);
-            }
-
-            // Load sie model
+            _parsers = GetType().Assembly.GetTypes().Where(a => a.BaseType == typeof(BaseParser) && !a.IsAbstract)
+                .Select(b => (BaseParser) Activator.CreateInstance(b)).ToList();
         }
 
         public ModelPredictionResponse RunModel(ArgumentResponseItem responseItem)
         {
             var response = new ModelPredictionResponse();
+
+            if (!File.Exists(responseItem.FileNameForClassification))
+            {
+                throw new FileNotFoundException($"Could not find file {responseItem.FileNameForClassification}");
+            }
+
+            var fileBytes = File.ReadAllBytes(responseItem.FileNameForClassification);
+
+            var matchedParser = _parsers.FirstOrDefault(parser => parser.IsParseable(fileBytes));
+
+            if (matchedParser == null)
+            {
+                throw new ArgumentOutOfRangeException($"No parser matched for {responseItem.FileNameForClassification}");
+            }
 
             // Run sie model
 
