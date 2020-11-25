@@ -4,6 +4,6 @@
     {
         public abstract string Name { get; }
 
-        public abstract bool IsParseable(byte[] data);
+        public abstract bool IsParseable(byte[] data, string fileName);
     }
 }

@@ -29,7 +29,7 @@ namespace filex
 
             var fileBytes = File.ReadAllBytes(responseItem.FileNameForClassification);
 
-            var matchedParser = _parsers.FirstOrDefault(parser => parser.IsParseable(fileBytes));
+            var matchedParser = _parsers.FirstOrDefault(parser => parser.IsParseable(fileBytes, responseItem.FileNameForClassification));
 
             if (matchedParser == null)
             {

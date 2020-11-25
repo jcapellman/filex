@@ -1,4 +1,9 @@
-﻿using filex.Parsers.Base;
+﻿using System;
+
+using filex.Parsers.Base;
+
+using SharpPcap;
+using SharpPcap.LibPcap;
 
 namespace filex.Parsers
 {
@@ -6,9 +11,20 @@ namespace filex.Parsers
     {
         public override string Name => "PCAP";
 
-        public override bool IsParseable(byte[] data)
+        public override bool IsParseable(byte[] data, string fileName)
         {
-            return false;
+            try
+            {
+                ICaptureDevice device = new CaptureFileReaderDevice(fileName);
+
+                device.Open();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
