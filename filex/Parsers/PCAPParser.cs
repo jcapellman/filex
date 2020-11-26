@@ -1,5 +1,6 @@
 ﻿using System;
 
+using filex.Objects;
 using filex.Parsers.Base;
 
 using SharpPcap;
@@ -13,6 +14,11 @@ namespace filex.Parsers
 
         public override bool IsParseable(byte[] data, string fileName)
         {
+            if (fileName is null)
+            {
+                throw new ArgumentNullException("FileName cannot be null");
+            }
+
             try
             {
                 ICaptureDevice device = new CaptureFileReaderDevice(fileName);
@@ -25,6 +31,11 @@ namespace filex.Parsers
             }
 
             return true;
+        }
+
+        public override ModelPredictionResponse RunModel(byte[] data, string fileName)
+        {
+            return new ModelPredictionResponse();
         }
     }
 }
