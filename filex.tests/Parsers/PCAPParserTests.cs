@@ -43,11 +43,17 @@ namespace filex.tests.Parsers
         {
             var pParser = new PCAPParser();
 
+            Assert.IsTrue(pParser.Name == "PCAP");
+
             var path = Path.Combine(AppContext.BaseDirectory, @"..\..\..\Samples\benign_pcap.pcap");
 
             var result = pParser.IsParseable(null, path);
 
             Assert.IsTrue(result);
+
+            var modelRun = pParser.RunModel(null, path);
+
+            Assert.IsNotNull(modelRun);
         }
     }
 }
