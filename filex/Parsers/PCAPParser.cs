@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 using filex.Objects;
 using filex.Parsers.Base;
@@ -17,6 +18,11 @@ namespace filex.Parsers
             if (fileName is null)
             {
                 throw new ArgumentNullException("FileName cannot be null");
+            }
+
+            if (!File.Exists(fileName))
+            {
+                throw new FileNotFoundException($"Could not find {fileName}");
             }
 
             try

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 using filex.Parsers;
 
@@ -19,12 +20,24 @@ namespace filex.tests.Parsers
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(FileNotFoundException))]
         public void PCAPParser_FNFArguments()
         {
             var pParser = new PCAPParser();
 
             pParser.IsParseable(null, "wick");
+        }
+
+        [TestMethod]
+        public void PCAPParser_BenginPCAPArguments()
+        {
+            var pParser = new PCAPParser();
+
+            var path = Path.Combine(AppContext.BaseDirectory, @"..\..\..\Samples\benign_pcap.pcap");
+
+            var result = pParser.IsParseable(null, path);
+
+            Assert.IsTrue(result);
         }
     }
 }
