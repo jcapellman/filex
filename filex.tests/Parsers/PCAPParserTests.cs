@@ -29,6 +29,16 @@ namespace filex.tests.Parsers
         }
 
         [TestMethod]
+        public void PCAPParser_InvalidFileArguments()
+        {
+            var pParser = new PCAPParser();
+
+            var result = pParser.IsParseable(null, Path.Combine(Environment.GetEnvironmentVariable("windir") ?? string.Empty, "explorer.exe"));
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
         public void PCAPParser_BenginPCAPArguments()
         {
             var pParser = new PCAPParser();

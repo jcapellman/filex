@@ -30,6 +30,8 @@ namespace filex.Parsers
                 ICaptureDevice device = new CaptureFileReaderDevice(fileName);
 
                 device.Open();
+
+                device.Close();
             }
             catch (Exception)
             {

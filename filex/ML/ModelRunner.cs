@@ -36,9 +36,11 @@ namespace filex
                 throw new ArgumentOutOfRangeException($"No parser matched for {responseItem.FileNameForClassification}");
             }
 
+            Console.WriteLine($"Using {matchedParser.Name} Parser to parse {responseItem.FileNameForClassification}");
+
             // Run sie model
 
-            return response;
+            return matchedParser.RunModel(fileBytes, responseItem.FileNameForClassification);
         }
     }
 }
