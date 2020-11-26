@@ -43,6 +43,27 @@ namespace filex.Parsers
 
         public override ModelPredictionResponse RunModel(byte[] data, string fileName)
         {
+            ICaptureDevice device = new CaptureFileReaderDevice(fileName);
+
+            device.Open();
+
+            var packet = device.GetNextPacket();
+
+            while (packet !=  null)
+            {
+                // TODO: Feature Extraction
+
+                packet = device.GetNextPacket();
+            }
+
+            device.Close();
+
+            // TODO: Load Model
+
+            // TODO: Run Model
+            
+            // TODO: Return model prediction
+
             return new ModelPredictionResponse();
         }
     }
