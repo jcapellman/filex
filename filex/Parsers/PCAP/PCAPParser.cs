@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 using filex.Common;
@@ -7,6 +8,8 @@ using filex.Parsers.Base;
 using filex.Parsers.PCAP.Objects;
 
 using Microsoft.ML;
+
+using PacketDotNet;
 
 using SharpPcap;
 using SharpPcap.LibPcap;
@@ -20,6 +23,8 @@ namespace filex.Parsers.PCAP
         public override string Name => "PCAP";
 
         private PredictionEngine<PCAPFeatureExtractionRequestItem, ModelPredictionResponse> _mlEngine;
+
+        private List<EthernetPacket> packets = new List<EthernetPacket>();
 
         public override bool IsParseable(byte[] data, string fileName)
         {
@@ -55,20 +60,30 @@ namespace filex.Parsers.PCAP
 
             device.Open();
 
-            var packet = device.GetNextPacket();
-
             var modelRequestItem = new PCAPFeatureExtractionRequestItem();
 
-            while (packet !=  null)
-            {
-                // TODO: Feature Extraction
+            device.OnPacketArrival += device_OnPacketArrival;
 
-                packet = device.GetNextPacket();
-            }
+            device.Capture();
 
             device.Close();
 
+            // TODO: Iterate through the packets
+
             return _mlEngine.Predict(modelRequestItem);
+        }
+
+        private void device_OnPacketArrival(object sender, CaptureEventArgs e)
+        {
+            if (e.Packet.LinkLayerType != PacketDotNet.LinkLayers.Ethernet)
+            {
+                return;
+            }
+
+            var packet = Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
+            var ethernetPacket = (EthernetPacket) packet;
+
+            packets.Add(ethernetPacket);
         }
 
         public override void LoadModel()
