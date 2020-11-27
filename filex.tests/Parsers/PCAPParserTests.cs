@@ -2,7 +2,7 @@
 using System.IO;
 
 using filex.Parsers;
-
+using filex.Parsers.PCAP;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace filex.tests.Parsers
