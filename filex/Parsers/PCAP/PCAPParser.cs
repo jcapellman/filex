@@ -54,13 +54,23 @@ namespace filex.Parsers.PCAP
             return true;
         }
 
+        private PCAPFeatureExtractionRequestItem ParsePackets()
+        {
+            var requestItem = new PCAPFeatureExtractionRequestItem();
+
+            foreach (var packet in packets)
+            {
+                // TODO: Parse for Features
+            }
+
+            return requestItem;
+        }
+
         public override ModelPredictionResponse RunModel(byte[] data, string fileName)
         {
             ICaptureDevice device = new CaptureFileReaderDevice(fileName);
 
             device.Open();
-
-            var modelRequestItem = new PCAPFeatureExtractionRequestItem();
 
             device.OnPacketArrival += device_OnPacketArrival;
 
@@ -68,9 +78,7 @@ namespace filex.Parsers.PCAP
 
             device.Close();
 
-            // TODO: Iterate through the packets
-
-            return _mlEngine.Predict(modelRequestItem);
+            return _mlEngine.Predict(ParsePackets());
         }
 
         private void device_OnPacketArrival(object sender, CaptureEventArgs e)
