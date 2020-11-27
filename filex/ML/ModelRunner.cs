@@ -38,8 +38,8 @@ namespace filex
 
             Console.WriteLine($"Using {matchedParser.Name} Parser to parse {responseItem.FileNameForClassification}");
 
-            // Run sie model
-
+            matchedParser.LoadModel();
+            
             return matchedParser.RunModel(fileBytes, responseItem.FileNameForClassification);
         }
     }

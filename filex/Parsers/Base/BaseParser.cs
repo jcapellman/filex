@@ -9,5 +9,7 @@ namespace filex.Parsers.Base
         public abstract bool IsParseable(byte[] data, string fileName);
 
         public abstract ModelPredictionResponse RunModel(byte[] data, string fileName);
+
+        public abstract void LoadModel();
     }
 }
