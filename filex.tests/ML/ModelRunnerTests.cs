@@ -40,6 +40,7 @@ namespace filex.tests.ML
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ModelRunner_EXETest()
         {
             var model = new ModelRunner();

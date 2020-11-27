@@ -131,6 +131,14 @@ namespace filex.tests
         }
 
         [TestMethod]
+        public void ArgumentTest_VersionTest()
+        {
+            var parsed = ArgumentParser.Parse(new string[] { "-version" });
+
+            Assert.IsFalse(parsed.ValidOption);
+        }
+
+        [TestMethod]
         public void ValidModeWithTrainingPath()
         {
             var parsed = ArgumentParser.Parse(new string[] { "-mode", OperationMode.MODEL_TRAIN.ToString(), "-trainingpath", "c:\\Windows" });
