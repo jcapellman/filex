@@ -1,17 +1,25 @@
 ﻿using System;
 using System.IO;
 
+using filex.Common;
 using filex.Objects;
 using filex.Parsers.Base;
+using filex.Parsers.PCAP.Objects;
+
+using Microsoft.ML;
 
 using SharpPcap;
 using SharpPcap.LibPcap;
 
-namespace filex.Parsers
+namespace filex.Parsers.PCAP
 {
     public class PCAPParser : BaseParser
     {
+        private const string MODEL_NAME = "pcap.mdl";
+
         public override string Name => "PCAP";
+
+        private PredictionEngine<PCAPFeatureExtractionRequestItem, ModelPredictionResponse> _mlEngine;
 
         public override bool IsParseable(byte[] data, string fileName)
         {
@@ -49,6 +57,8 @@ namespace filex.Parsers
 
             var packet = device.GetNextPacket();
 
+            var modelRequestItem = new PCAPFeatureExtractionRequestItem();
+
             while (packet !=  null)
             {
                 // TODO: Feature Extraction
@@ -58,13 +68,26 @@ namespace filex.Parsers
 
             device.Close();
 
-            // TODO: Load Model
+            return _mlEngine.Predict(modelRequestItem);
+        }
 
-            // TODO: Run Model
-            
-            // TODO: Return model prediction
+        public override void LoadModel()
+        {
+            if (_mlEngine != null)
+            {
+                return;
+            }
 
-            return new ModelPredictionResponse();
+            if (!File.Exists(MODEL_NAME))
+            {
+                throw new FileNotFoundException($"Could not find PCAP Model {MODEL_NAME}");
+            }
+
+            var mlContext = new MLContext(Constants.ML_SEED);
+
+            var model = mlContext.Model.Load(MODEL_NAME, out _);
+
+            _mlEngine = mlContext.Model.CreatePredictionEngine<PCAPFeatureExtractionRequestItem, ModelPredictionResponse>(model);
         }
     }
 }
