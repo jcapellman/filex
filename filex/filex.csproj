@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.ML" Version="1.5.2" />
     <PackageReference Include="Microsoft.ML.FastTree" Version="1.5.2" />
+    <PackageReference Include="Microsoft.ML.TimeSeries" Version="1.5.2" />
     <PackageReference Include="SharpPcap" Version="5.3.0" />
   </ItemGroup>
 
