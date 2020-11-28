@@ -16,7 +16,7 @@ namespace filex.Parsers.Base
 
         public abstract void LoadModel();
 
-        public abstract void TrainModel(string trainingPath);
+        public abstract ModelTrainingMetricsResponse TrainModel(string trainingPath);
 
         protected static IEnumerable<string> GetFiles(string path)
         {
