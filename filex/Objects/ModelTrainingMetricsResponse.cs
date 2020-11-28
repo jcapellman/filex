@@ -14,6 +14,8 @@ namespace filex.Objects
 
         public double NegativeRecall { get; }
 
+        public double FalsePositiveRate { get; set; }
+
         public ModelTrainingMetricsResponse(CalibratedBinaryClassificationMetrics metric)
         {
             AUC = metric.AreaUnderRocCurve;
@@ -21,6 +23,12 @@ namespace filex.Objects
             F1Score = metric.F1Score;
             PositiveRecall = metric.PositiveRecall;
             NegativeRecall = metric.NegativeRecall;
+        }
+
+        public ModelTrainingMetricsResponse(AnomalyDetectionMetrics metrics)
+        {
+            AUC = metrics.AreaUnderRocCurve;
+            FalsePositiveRate = metrics.DetectionRateAtFalsePositiveCount;
         }
     }
 }
