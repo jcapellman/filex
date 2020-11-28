@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 
 using filex.Common;
+using filex.ML.Base;
 using filex.Objects;
 
 using Microsoft.ML;
 
 namespace filex.ML
 {
-    public class ModelTrainer
+    public class ModelTrainer : BaseML
     {
         public static IEnumerable<ModelPredictionRequest> FeatureExtraction(string path)
         {

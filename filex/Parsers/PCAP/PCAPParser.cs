@@ -105,7 +105,7 @@ namespace filex.Parsers.PCAP
             _mlEngine = mlContext.Model.CreatePredictionEngine<PCAPFeatureExtractionRequestItem, ModelPredictionResponse>(model);
         }
 
-        public override void TrainModel(string trainingPath)
+        public override ModelTrainingMetricsResponse TrainModel(string trainingPath)
         {
             if (string.IsNullOrEmpty(trainingPath))
             {
@@ -137,11 +137,11 @@ namespace filex.Parsers.PCAP
 
             mlContext.Model.Save(trainedModel, predictions.Schema, MODEL_NAME);
 
-            var metrics = mlContext.AnomalyDetection.Evaluate(
+            return new ModelTrainingMetricsResponse(mlContext.AnomalyDetection.Evaluate(
                 data: predictions,
                 labelColumnName: nameof(ModelPredictionRequest.Label),
                 scoreColumnName: "Score",
-                predictedLabelColumnName: nameof(ModelPredictionRequest.Label));
+                predictedLabelColumnName: nameof(ModelPredictionRequest.Label)));
         }
     }
 }
