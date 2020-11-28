@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 using filex.Common;
 using filex.Objects;
@@ -24,7 +26,7 @@ namespace filex.Parsers.PCAP
 
         private PredictionEngine<PCAPFeatureExtractionRequestItem, ModelPredictionResponse> _mlEngine;
 
-        private List<EthernetPacket> packets = new List<EthernetPacket>();
+        private List<ModelPredictionResponse> _packetPredictions = new List<ModelPredictionResponse>();
 
         public override bool IsParseable(byte[] data, string fileName)
         {
@@ -54,18 +56,6 @@ namespace filex.Parsers.PCAP
             return true;
         }
 
-        private PCAPFeatureExtractionRequestItem ParsePackets()
-        {
-            var requestItem = new PCAPFeatureExtractionRequestItem();
-
-            foreach (var packet in packets)
-            {
-                // TODO: Parse for Features
-            }
-
-            return requestItem;
-        }
-
         public override ModelPredictionResponse RunModel(byte[] data, string fileName)
         {
             ICaptureDevice device = new CaptureFileReaderDevice(fileName);
@@ -78,7 +68,7 @@ namespace filex.Parsers.PCAP
 
             device.Close();
 
-            return _mlEngine.Predict(ParsePackets());
+            return _packetPredictions.FirstOrDefault();
         }
 
         private void device_OnPacketArrival(object sender, CaptureEventArgs e)
@@ -91,7 +81,12 @@ namespace filex.Parsers.PCAP
             var packet = Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
             var ethernetPacket = (EthernetPacket) packet;
 
-            packets.Add(ethernetPacket);
+            var requestItem = new PCAPFeatureExtractionRequestItem
+            {
+                PayloadContent = Encoding.ASCII.GetString(ethernetPacket.PayloadPacket.Bytes)
+            };
+
+            _packetPredictions.Add(_mlEngine.Predict(requestItem));
         }
 
         public override void LoadModel()

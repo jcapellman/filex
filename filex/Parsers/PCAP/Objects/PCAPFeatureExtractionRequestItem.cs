@@ -2,5 +2,6 @@
 {
     public class PCAPFeatureExtractionRequestItem
     {
+        public string PayloadContent { get; set; }
     }
 }
