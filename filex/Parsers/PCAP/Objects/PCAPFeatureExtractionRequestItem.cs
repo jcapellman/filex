@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 
 namespace filex.Parsers.PCAP.Objects
 {
@@ -10,5 +11,7 @@ namespace filex.Parsers.PCAP.Objects
         {
             PayloadContent = Encoding.ASCII.GetString(packet);
         }
+
+        public PCAPFeatureExtractionRequestItem(string fileName) : this(File.ReadAllBytes(fileName)) { }
     }
 }
