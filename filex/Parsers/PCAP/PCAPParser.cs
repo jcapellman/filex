@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 using filex.Common;
 using filex.Objects;
@@ -116,12 +115,7 @@ namespace filex.Parsers.PCAP
 
             var files = GetFiles(trainingPath);
 
-            var data = new List<PCAPFeatureExtractionRequestItem>();
-
-            foreach (var file in files)
-            {
-                //    data.Add(RunModel(null, file));
-            }
+            var data = files.Select(fileName => new PCAPFeatureExtractionRequestItem(fileName)).ToList();
 
             var dataView = mlContext.Data.LoadFromEnumerable(data);
 
