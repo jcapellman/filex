@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Text;
 
+using filex.Common;
+
 namespace filex.Parsers.PCAP.Objects
 {
     public class PCAPFeatureExtractionRequestItem
@@ -14,7 +16,7 @@ namespace filex.Parsers.PCAP.Objects
         public PCAPFeatureExtractionRequestItem(byte[] packet, bool label = true)
         {
             PayloadContent = Encoding.ASCII.GetString(packet);
-            Label = label ? 1.0f : 0.0f;
+            Label = label ? Constants.FLOAT_TRUE : Constants.FLOAT_FALSE;
         }
 
         public PCAPFeatureExtractionRequestItem(string fileName) : this(File.ReadAllBytes(fileName), fileName.Contains("benign")) { }

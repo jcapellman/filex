@@ -31,7 +31,7 @@ namespace filex.tests.ML
 
             var argumentResponseItem = new ArgumentResponseItem(new List<BaseArgument>());
 
-            argumentResponseItem.FileNameForClassification = Path.Combine(AppContext.BaseDirectory, @"..\..\..\Samples\benign_pcap.pcap");
+            argumentResponseItem.FileNameForClassification = Path.Combine(AppContext.BaseDirectory, @"..\..\..\Samples\pcap\benign_pcap.pcap");
             
             var response = model.RunModel(argumentResponseItem);
 
