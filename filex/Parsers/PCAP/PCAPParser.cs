@@ -9,6 +9,7 @@ using filex.Parsers.Base;
 using filex.Parsers.PCAP.Objects;
 
 using Microsoft.ML;
+using Microsoft.ML.Transforms.Text;
 
 using PacketDotNet;
 
@@ -121,8 +122,12 @@ namespace filex.Parsers.PCAP
 
             var split = mlContext.Data.TrainTestSplit(dataView, testFraction: .5);
 
-            var pipeline = mlContext.Transforms.Concatenate(
-                    "Features", nameof(PCAPFeatureExtractionRequestItem.PayloadContent))
+            var pipeline = mlContext.Transforms.Text.TokenizeIntoWords("Tokens", nameof(PCAPFeatureExtractionRequestItem.PayloadContent))
+                .Append(mlContext.Transforms.Conversion.MapValueToKey("Tokens"))
+                .Append(mlContext.Transforms.Text.ProduceNgrams("NgramFeatures", "Tokens",
+                    ngramLength: 2,
+                    useAllLengths: false,
+                    weighting: NgramExtractingEstimator.WeightingCriteria.Tf))
                 .Append(mlContext.AnomalyDetection.Trainers.RandomizedPca(featureColumnName: "Features"));
 
             ITransformer trainedModel = pipeline.Fit(split.TrainSet);
