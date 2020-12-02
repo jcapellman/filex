@@ -124,11 +124,11 @@ namespace filex.Parsers.PCAP
 
             var pipeline = mlContext.Transforms.Text.TokenizeIntoWords("Tokens", nameof(PCAPFeatureExtractionRequestItem.PayloadContent))
                 .Append(mlContext.Transforms.Conversion.MapValueToKey("Tokens"))
-                .Append(mlContext.Transforms.Text.ProduceNgrams("NgramFeatures", "Tokens",
+                .Append(mlContext.Transforms.Text.ProduceNgrams(nameof(PCAPFeatureExtractionRequestItem.NgramFeatures), "Tokens",
                     ngramLength: 2,
                     useAllLengths: false,
                     weighting: NgramExtractingEstimator.WeightingCriteria.Tf))
-                .Append(mlContext.AnomalyDetection.Trainers.RandomizedPca(featureColumnName: "Features"));
+                .Append(mlContext.AnomalyDetection.Trainers.RandomizedPca(featureColumnName: nameof(PCAPFeatureExtractionRequestItem.NgramFeatures)));
 
             ITransformer trainedModel = pipeline.Fit(split.TrainSet);
 
