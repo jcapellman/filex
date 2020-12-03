@@ -88,6 +88,8 @@ namespace filex.tests.Parsers
             var modelRun = pParser.RunModel(null, path);
 
             Assert.IsNotNull(modelRun);
+            Assert.IsFalse(modelRun.Prediction);
+            Assert.IsTrue(modelRun.Probability == 0.0);
         }
     }
 }
