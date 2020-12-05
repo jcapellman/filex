@@ -65,7 +65,7 @@ namespace filex.tests.Parsers
 
             var result = pParser.TrainModel(path);
 
-            Assert.IsTrue(result.AUC == 0.0);
+            Assert.IsTrue(result.AUC == 0.5);
 
             Assert.IsTrue(result.F1Score == 0.0);
         }
@@ -89,7 +89,7 @@ namespace filex.tests.Parsers
 
             Assert.IsNotNull(modelRun);
             Assert.IsFalse(modelRun.Prediction);
-            Assert.IsTrue(modelRun.Probability == 0.0);
+            Assert.IsTrue(Math.Abs(modelRun.Probability - 0.5f) < 0.01);
         }
 
         [TestMethod]
@@ -110,8 +110,8 @@ namespace filex.tests.Parsers
             var modelRun = pParser.RunModel(null, path);
 
             Assert.IsNotNull(modelRun);
-            Assert.IsTrue(modelRun.Prediction);
-            Assert.IsTrue(modelRun.Probability == 0.0);
+            Assert.IsFalse(modelRun.Prediction);
+            Assert.IsTrue(modelRun.Probability == 0.5f);
         }
     }
 }

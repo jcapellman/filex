@@ -142,7 +142,7 @@ namespace filex.Parsers.PCAP
                     ngramLength: 2,
                     useAllLengths: false,
                     weighting: NgramExtractingEstimator.WeightingCriteria.Tf))
-                .Append(mlContext.AnomalyDetection.Trainers.RandomizedPca(featureColumnName: nameof(PCAPFeatureExtractionRequestItem.NgramFeatures)));
+                .Append(mlContext.BinaryClassification.Trainers.FastTree(featureColumnName: nameof(PCAPFeatureExtractionRequestItem.NgramFeatures)));
 
             ITransformer trainedModel = pipeline.Fit(split.TrainSet);
 
@@ -150,7 +150,7 @@ namespace filex.Parsers.PCAP
 
             mlContext.Model.Save(trainedModel, predictions.Schema, MODEL_NAME);
 
-            return new ModelTrainingMetricsResponse(mlContext.AnomalyDetection.Evaluate(
+            return new ModelTrainingMetricsResponse(mlContext.BinaryClassification.Evaluate(
                 data: predictions,
                 labelColumnName: nameof(ModelPredictionRequest.Label),
                 scoreColumnName: "Score",
