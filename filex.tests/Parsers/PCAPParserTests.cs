@@ -91,5 +91,27 @@ namespace filex.tests.Parsers
             Assert.IsFalse(modelRun.Prediction);
             Assert.IsTrue(modelRun.Probability == 0.0);
         }
+
+        [TestMethod]
+        public void ddPCAPParser_MaliciousPCAPArguments()
+        {
+            var pParser = new PCAPParser();
+
+            Assert.IsTrue(pParser.Name == "PCAP");
+
+            var path = Path.Combine(AppContext.BaseDirectory, @"..\..\..\Samples\pcap\malicious_sample1.pcap");
+
+            var result = pParser.IsParseable(null, path);
+
+            Assert.IsTrue(result);
+
+            pParser.LoadModel();
+
+            var modelRun = pParser.RunModel(null, path);
+
+            Assert.IsNotNull(modelRun);
+            Assert.IsTrue(modelRun.Prediction);
+            Assert.IsTrue(modelRun.Probability == 0.0);
+        }
     }
 }

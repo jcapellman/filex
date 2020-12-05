@@ -68,7 +68,21 @@ namespace filex.Parsers.PCAP
 
             device.Close();
 
-            return _packetPredictions.FirstOrDefault();
+            var predictionResponse = new ModelPredictionResponse();
+
+            var scoreTotal = 0.0f;
+            var probabilityTotal = 0.0f;
+
+            foreach (var prediction in _packetPredictions)
+            {
+                scoreTotal += prediction.Score;
+                probabilityTotal += prediction.Probability;
+            }
+
+            predictionResponse.Probability = probabilityTotal / _packetPredictions.Count;
+            predictionResponse.Score = scoreTotal / _packetPredictions.Count;
+
+            return predictionResponse;
         }
 
         private void device_OnPacketArrival(object sender, CaptureEventArgs e)
