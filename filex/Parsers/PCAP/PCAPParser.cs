@@ -62,7 +62,7 @@ namespace filex.Parsers.PCAP
 
             device.Open();
 
-            device.OnPacketArrival += device_OnPacketArrival;
+            device.OnPacketArrival += Device_OnPacketArrival; ;
 
             device.Capture();
 
@@ -85,15 +85,15 @@ namespace filex.Parsers.PCAP
             return predictionResponse;
         }
 
-        private void device_OnPacketArrival(object sender, CaptureEventArgs e)
+        private void Device_OnPacketArrival(object sender, PacketCapture e)
         {
-            if (e.Packet.LinkLayerType != PacketDotNet.LinkLayers.Ethernet)
+            if (e.GetPacket().LinkLayerType != PacketDotNet.LinkLayers.Ethernet)
             {
                 return;
             }
 
-            var packet = Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
-            var ethernetPacket = (EthernetPacket) packet;
+            var packet = Packet.ParsePacket(e.GetPacket().LinkLayerType, e.GetPacket().Data);
+            var ethernetPacket = (EthernetPacket)packet;
 
             var requestItem = new PCAPFeatureExtractionRequestItem(ethernetPacket.PayloadPacket.Bytes);
 
