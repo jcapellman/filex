@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.ML.FastTree" Version="1.7.1" />
     <PackageReference Include="Microsoft.ML.TensorFlow" Version="1.7.1" />
     <PackageReference Include="Microsoft.ML.TimeSeries" Version="1.7.1" />
-    <PackageReference Include="SharpPcap" Version="6.1.0" />
+    <PackageReference Include="SharpPcap" Version="6.2.1" />
   </ItemGroup>
 
   <ItemGroup>
